@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="flare.jpeg" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="./styles/recipe.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">Your Logo</div>
+        <nav>
+            <ul>
+                <li><a href="recipe.html">Recipe</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="logout.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="search-bar">
+            <input type="text" id="search-input" placeholder="Search recipes...">
+            <button type="button" id="search-button">Search</button>
+        </section>
+        <section class="recipe-cards">
+
+        </section>
+        <aside class="sidebar">
+            <h2>Trending Recipes</h2>
+            <ul>
+                <li><a href="https://www.google.com/search?q=recipe+1" target="_blank">Recipe 1</a></li>
+                <li><a href="https://www.google.com/search?q=recipe+2" target="_blank">Recipe 2</a></li>
+            </ul>
+        </aside>
+
+
+        <section class="add-recipe">
+            <h2>Add a Recipe</h2>
+            <form id="recipe-form">
+                <label for="recipe-title">Title:</label>
+                <input type="text" id="recipe-title" name="recipe-title" required>
+                <label for="recipe-ingredients">Ingredients:</label>
+                <textarea id="recipe-ingredients" name="recipe-ingredients" required></textarea>
+                <label for="recipe-instructions">Instructions:</label>
+                <textarea id="recipe-instructions" name="recipe-instructions" required></textarea>
+                <button type="submit">Add Recipe</button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Recipe Sharing App</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const recipeCardsContainer = document.querySelector(".recipe-cards");
+
+
+            const recipes = [
+                {
+                    id: 1,
+                    title: "Korean Dinner Night",
+                    description: "A classic Italian pasta dish with creamy sauce.",
+                    image: "recipe.webp",
+                    likes: 25,
+                    comments: [
+                        { id: 1, user: "User1", comment: "Great recipe!" },
+                        { id: 2, user: "User2", comment: "I tried it and loved it!" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "Chinese Recipe",
+                    description: "Creamy pasta with chicken and parmesan cheese.",
+                    image: "rice.jpeg",
+                    likes: 30,
+                    comments: [
+                        { id: 1, user: "User3", comment: "Delicious dish!" }
+                    ]
+                }
+            ];
+
+
+            function createRecipeCard(recipe) {
+                return `
+      <div class="recipe-card">
+        <img src="${recipe.image}" alt="${recipe.title}">
+        <h2>${recipe.title}</h2>
+        <p>${recipe.description}</p>
+        <div class="interaction-options">
+          <button class="like-button" data-id="${recipe.id}">Like (${recipe.likes})</button>
+          <button class="comment-button" data-id="${recipe.id}">Comment (${recipe.comments.length})</button>
+        </div>
+        <div class="comments-section" style="display: none;">
+          <h3>Comments</h3>
+          <ul class="comments-list">
+            ${recipe.comments.map(comment => `<li>${comment.user}: ${comment.comment}</li>`).join('')}
+          </ul>
+          <input type="text" class="comment-input" placeholder="Add a comment...">
+          <button class="add-comment-button" data-id="${recipe.id}">Add Comment</button>
+        </div>
+      </div>
+    `;
+            }
+
+
+            function renderRecipeCards() {
+                recipes.forEach(recipe => {
+                    const recipeCardHTML = createRecipeCard(recipe);
+                    recipeCardsContainer.innerHTML += recipeCardHTML;
+                });
+            }
+
+
+            recipeCardsContainer.addEventListener("click", function (event) {
+                if (event.target.classList.contains("like-button")) {
+                    const recipeId = parseInt(event.target.dataset.id);
+                    const recipe = recipes.find(recipe => recipe.id === recipeId);
+                    recipe.likes++;
+                    event.target.textContent = `Like (${recipe.likes})`;
+                }
+            });
+
+
+            recipeCardsContainer.addEventListener("click", function (event) {
+                if (event.target.classList.contains("comment-button")) {
+                    const commentsSection = event.target.parentNode.nextElementSibling;
+                    commentsSection.style.display = commentsSection.style.display === "none" ? "block" : "none";
+                }
+            });
+
+
+            recipeCardsContainer.addEventListener("click", function (event) {
+                if (event.target.classList.contains("add-comment-button")) {
+                    const recipeId = parseInt(event.target.dataset.id);
+                    const recipe = recipes.find(recipe => recipe.id === recipeId);
+                    const commentInput = event.target.previousElementSibling;
+                    const newComment = commentInput.value.trim();
+                    if (newComment !== "") {
+                        const comment = { id: recipe.comments.length + 1, user: "User", comment: newComment };
+                        recipe.comments.push(comment);
+                        const commentsList = event.target.previousElementSibling.previousElementSibling;
+                        commentsList.innerHTML += `<li>${comment.user}: ${comment.comment}</li>`;
+                        commentInput.value = "";
+                        event.target.previousElementSibling.focus();
+                        event.target.previousElementSibling.textContent = `Comment (${recipe.comments.length})`;
+                    }
+                }
+            });
+
+            renderRecipeCards();
+        });
+
+        document.getElementById('recipe-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const title = document.getElementById('recipe-title').value;
+            const ingredients = document.getElementById('recipe-ingredients').value;
+            const instructions = document.getElementById('recipe-instructions').value;
+
+            console.log('Recipe Title:', title);
+            console.log('Ingredients:', ingredients);
+            console.log('Instructions:', instructions);
+        });
+
+
+        document.getElementById('search-button').addEventListener('click', function () {
+            const searchTerm = document.getElementById('search-input').value;
+
+            window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(searchTerm) + '+recipes';
+        });
+
+
+    </script>
+</body>
+
+</html>

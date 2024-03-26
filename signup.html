@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="flare.jpeg" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <link rel="stylesheet" href="./styles/signup.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>Recipe Sharing App</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="signup.html">Signup</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Signup</h2>
+        <form id="signup-form">
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" name="fullname" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+            <button type="submit">Signup</button>
+            <p>Already have an account? <a href="login.html">Login here</a>.</p>
+        </form>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Recipe Sharing App</p>
+        </div>
+    </footer>
+
+    <script>
+        function showError(fieldId, errorMessage) {
+            const errorElement = document.createElement('div');
+            errorElement.className = 'error-message';
+            errorElement.innerText = errorMessage;
+
+            const formField = document.getElementById(fieldId);
+            formField.insertAdjacentElement('afterend', errorElement);
+        }
+
+        function validateForm() {
+            const fullName = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (fullName === '' || email === '' || username === '' || password === '' || confirmPassword === '') {
+                showError('signup-form', 'Please fill out all fields.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password !== confirmPassword) {
+                showError('confirm-password', 'Passwords do not match.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function redirectToLogin() {
+            window.location.href = 'login.html';
+        }
+
+        document.getElementById('signup-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            if (validateForm() && checkPasswordMatch()) {
+                redirectToLogin();
+            }
+        });
+    </script>
+</body>
+
+</html>
