@@ -74,6 +74,7 @@ input[type="text"],
 input[type="email"],
 input[type="password"] {
     width: 100%;
+    max-width: 750px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -107,6 +108,13 @@ button:hover {
 
     form {
         padding: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: 95%;
+
     }
 
     button {

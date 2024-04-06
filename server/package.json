@@ -1,0 +1,25 @@
+{
+  "name": "foodrecipe",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000F\u0000o\u0000o\u0000d\u0000-\u0000R\u0000e\u0000c\u0000i\u0000p\u0000e\u0000\r\u0000 \u0000",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.9.3",
+    "nodemon": "^3.1.0",
+    "uuid": "^9.0.1",
+    "validator": "^13.11.0",
+    "ws": "^8.16.0"
+  }
+}
